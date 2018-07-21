@@ -1,6 +1,10 @@
 # life-game
 Life game with web assembly
 
+```
+$ source <path-to-emsdk>/emsdk_env.sh
+```
+
 ## Compile
 ```
 # C++
