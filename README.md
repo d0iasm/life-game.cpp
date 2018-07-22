@@ -7,6 +7,9 @@ $ source <path-to-emsdk>/emsdk_env.sh
 
 ## Compile
 ```
+# C++ using SDL
+$ emcc hoge.cpp -s WASM=1 -s USE_SDL=2 -O3 -o hoge.js
+
 # C++
 $ emcc hoge.cpp -std=c++14 -s WASM=1 -o hoge.html
 

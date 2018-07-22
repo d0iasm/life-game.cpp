@@ -2,14 +2,17 @@
 <html>
 
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="./index.css" />
   </head>
 
   <body>
 
     <!-- Create the canvas that the C++ code will draw into -->
-    <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+    <div class="container">
+      <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+    </div>
 
 
     <!-- Allow the C++ to access the canvas element --> 
