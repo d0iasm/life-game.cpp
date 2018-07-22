@@ -2,21 +2,19 @@
 #include <emscripten.h>
 #include <cstdlib>
 
-struct context
-{
+struct context {
     SDL_Renderer *renderer;
     int iteration;
 };
 
-void mainloop(void *arg)
-{
+void mainloop(void *arg) {
     context *ctx = static_cast<context*>(arg);
     SDL_Renderer *renderer = ctx->renderer;
     
     // example: draw a moving rectangle
     
     // red background
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     
     // moving blue rectangle
@@ -25,16 +23,21 @@ void mainloop(void *arg)
     r.y = 50;
     r.w = 50;
     r.h = 50;
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255 );
-    SDL_RenderFillRect(renderer, &r );
-
+    SDL_Rect r2;
+    r2.y = ctx->iteration % 255;
+    r2.x = 50;
+    r2.w = 50;
+    r2.h = 50;
+    SDL_SetRenderDrawColor(renderer, 0, 155, 50, 255);
+    SDL_RenderFillRect(renderer, &r);
+    SDL_RenderFillRect(renderer, &r2);
+    
     SDL_RenderPresent(renderer);
 
     ctx->iteration++;
 }
 
-int main()
-{
+int main() {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window;
     SDL_Renderer *renderer;
