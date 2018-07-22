@@ -1,12 +1,8 @@
 # life-game
-Life game with web assembly
+Life game with web assembly compiled from C++
 
-https://d0iasm.github.io/life-game/
+https://d0iasm.github.io/life-game.cpp/
 
-
-```
-$ source <path-to-emsdk>/emsdk_env.sh
-```
 
 ## Compile
 ```
@@ -27,7 +23,12 @@ $ emrun hoge.html
 
 ## Required
 - \>= C++14
-- Emscripten
+- Emscripten (https://kripken.github.io/emscripten-site/index.html)
+
+To enable emscripten commands
+```
+$ source <path-to-emsdk>/emsdk_env.sh
+```
 
 ## References
 - http://secret-garden.hatenablog.com/entry/2017/07/21/145712
