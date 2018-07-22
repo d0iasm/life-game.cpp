@@ -1,6 +1,9 @@
 # life-game
 Life game with web assembly
 
+https://d0iasm.github.io/life-game/
+
+
 ```
 $ source <path-to-emsdk>/emsdk_env.sh
 ```
