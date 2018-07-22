@@ -7,7 +7,7 @@ https://d0iasm.github.io/life-game.cpp/
 ## Compile
 ```
 # C++ using SDL
-$ emcc hoge.cpp -s WASM=1 -s USE_SDL=2 -O3 -o hoge.js
+$ emcc -std=c++11 hoge.cpp -s WASM=1 -s USE_SDL=2 -O3 -o hoge.js
 
 # C++
 $ emcc hoge.cpp -std=c++14 -s WASM=1 -o hoge.html
