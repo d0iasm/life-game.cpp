@@ -1,13 +1,22 @@
 #include <SDL2/SDL.h>
-#include <emscripten.h>
 #include <cstdlib>
+#include <emscripten.h>
+#include <time.h>
 #include <unistd.h>
 #include <vector>
 
 
 using tb = std::vector<std::vector<int>>;
-const int N = 8;
+const int N = 20;
 const int SIZE = 10;
+const int TITLE[5][34] = {
+  {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,0,1,1,1,0,1,0,0,0,1,0,1,1,1},
+  {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,1,0,1,1,0,1,0,0},
+  {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,0,0,1,0,0,0,1,1,1,0,1,1,1,1,1,0,1,1,1},
+  {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0},
+  {1,1,1,0,1,0,1,0,0,0,1,1,1,0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1}
+};
+
 
 struct context {
   SDL_Renderer *renderer;
@@ -50,30 +59,35 @@ void update(tb &cells) {
 void mainloop(void *arg) {
   context *ctx = static_cast<context*>(arg);
   SDL_Renderer *renderer = ctx->renderer;
-  // tb cells = ctx->cells;
 
   // SDL_RenderSetLogicalSize(renderer, 200, 200);
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
-
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-  SDL_Rect r;
-  r.x = ctx->iteration % 255;
-  r.y = 50;
-  r.w = 50;
-  r.h = 50;
-  SDL_RenderFillRect(renderer, &r);
+  SDL_Rect t;
+  for (int y=0; y<5; y++) {
+    for (int x=0; x<34; x++) {
+      if (TITLE[y][x] == 1) {    
+        t.x = x * SIZE / 2;
+        t.y = y * SIZE / 2;
+        t.w = SIZE/2;
+        t.h = SIZE/2;
+        SDL_RenderFillRect(renderer, &t);
+      }
+    }
+  }
 
+  SDL_Rect r;
   SDL_SetRenderDrawColor(renderer, 0, 155, 50, 255);
   for (int y=0; y<N; y++) {
     for (int x=0; x<N; x++) {
       printf("%d ", ctx->cells[y][x]);
       if (ctx->cells[y][x] == 1) {
-        r.y = y * SIZE;
         r.x = x * SIZE;
+        r.y = (y + 3) * SIZE;
         r.w = SIZE;
         r.h = SIZE;
         SDL_RenderFillRect(renderer, &r);
@@ -81,14 +95,11 @@ void mainloop(void *arg) {
     }
     printf("\n");
   }
-
   SDL_RenderPresent(renderer);
 
-  printf("Pointer %p \n", &(ctx->cells));
   update(ctx->cells);
-
   ctx->iteration++;
-  
+
   sleep(1);
 }
 
@@ -100,15 +111,9 @@ int main() {
 
   tb cells = tb(N, std::vector<int>(N, 0));
 
-  cells[N/2][N/2] = 1;
-  cells[N/2][N/2+1] = 1;
-  cells[N/2][N/2+2] = 1;
-
-  for (int i=0; i<N; i++) {
-    for (int j=0; j<N; j++) {
-      printf("%d ", cells[i][j]);
-    }
-    printf("\n");
+  srand((unsigned int) time(NULL));
+  for (int i=0; i<N*N/4; i++) {
+    cells[rand() % N][rand() % N] = 1;
   }
 
   context ctx;

@@ -32,3 +32,4 @@ $ source <path-to-emsdk>/emsdk_env.sh
 
 ## References
 - http://secret-garden.hatenablog.com/entry/2017/07/21/145712
+- https://github.com/timhutton/sdl-canvas-wasm
