@@ -6,6 +6,7 @@
 
 using tb = std::vector<std::vector<bool> >;
 const int N = 10;
+const int SIZE = 10;
 
 struct context {
   SDL_Renderer *renderer;
@@ -17,8 +18,10 @@ struct context {
 void mainloop(void *arg) {
   context *ctx = static_cast<context*>(arg);
   SDL_Renderer *renderer = ctx->renderer;
-
+  tb cells = ctx->cells;
   // example: draw a moving rectangle
+
+  // SDL_RenderSetLogicalSize(renderer, 200, 200);
 
   // red background
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -28,24 +31,27 @@ void mainloop(void *arg) {
 
   // vector<SDL_Rect> cellr;
 
-  SDL_SetRenderDrawColor(renderer, 0, 155, 50, 255);
+  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
   SDL_Rect r;
   r.x = ctx->iteration % 255;
   r.y = 50;
   r.w = 50;
   r.h = 50;
-
-  for (int i=0; i<3; i++) {
-    SDL_Rect r2;
-    r2.y = ctx->iteration % 255 + i*50;
-    r2.x = 50;
-    r2.w = 10;
-    r2.h = 10;
-    SDL_RenderFillRect(renderer, &r2);
-  }
-
   SDL_RenderFillRect(renderer, &r);
+
+  SDL_SetRenderDrawColor(renderer, 0, 155, 50, 255);
+  for (int i=0; i<N; i++) {
+    for (int j=0; j<N; j++) {
+      if (cells[i][j] == 1) {
+        r.y = j * SIZE;
+        r.x = i * SIZE;
+        r.w = SIZE;
+        r.h = SIZE;
+        SDL_RenderFillRect(renderer, &r);
+      }
+    }
+  }
 
   SDL_RenderPresent(renderer);
 
