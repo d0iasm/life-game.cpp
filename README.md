@@ -22,10 +22,10 @@ $ emrun hoge.html
 ```
 
 ## Required
-- \>= C++14
+- \>= C++11
 - Emscripten (https://kripken.github.io/emscripten-site/index.html)
 
-To enable emscripten commands
+To enable emscripten commands in your current directory
 ```
 $ source <path-to-emsdk>/emsdk_env.sh
 ```
