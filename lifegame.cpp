@@ -7,8 +7,9 @@
 
 
 using tb = std::vector<std::vector<int>>;
+const int MAX_PX = 800;
 const int N = 20;
-const int SIZE = 10;
+int SIZE = (MAX_PX / N) / 2;
 const int TITLE[5][34] = {
   {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,0,1,1,1,0,1,0,0,0,1,0,1,1,1},
   {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,1,0,1,1,0,1,0,0},
@@ -16,7 +17,6 @@ const int TITLE[5][34] = {
   {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0},
   {1,1,1,0,1,0,1,0,0,0,1,1,1,0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1}
 };
-
 
 struct context {
   SDL_Renderer *renderer;
@@ -105,7 +105,7 @@ void mainloop(void *arg) {
 
 int main() {
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_Window *window;
+  SDL_Window *window = SDL_CreateWindow("Life Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_OPENGL);
   SDL_Renderer *renderer;
   SDL_CreateWindowAndRenderer(255, 255, 0, &window, &renderer);
 
