@@ -7,15 +7,16 @@
 
 
 using tb = std::vector<std::vector<int>>;
-const int MAX_PX = 800;
-const int N = 20;
-int SIZE = (MAX_PX / N) / 2;
-const int TITLE[5][34] = {
-  {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,0,1,1,1,0,1,0,0,0,1,0,1,1,1},
-  {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,1,0,1,1,0,1,0,0},
-  {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,0,0,1,0,0,0,1,1,1,0,1,1,1,1,1,0,1,1,1},
-  {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0},
-  {1,1,1,0,1,0,1,0,0,0,1,1,1,0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1}
+
+const int MAX_SIZE = 800;
+const int N = 32;
+int SIZE = MAX_SIZE / N;
+const int TITLE[5][32] = {
+  {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,0,1,0,0,0,1,0,1,1,1},
+  {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,1,0,1,1,0,1,1,0,1,0,0},
+  {1,0,0,0,1,0,1,1,1,0,1,1,1,0,0,1,0,0,0,1,1,1,0,1,1,1,1,1,0,1,1,1},
+  {1,0,0,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0},
+  {1,1,1,0,1,0,1,0,0,0,1,1,1,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1}
 };
 
 struct context {
@@ -60,40 +61,35 @@ void mainloop(void *arg) {
   context *ctx = static_cast<context*>(arg);
   SDL_Renderer *renderer = ctx->renderer;
 
-  // SDL_RenderSetLogicalSize(renderer, 200, 200);
-
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black
   SDL_RenderClear(renderer);
 
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
+  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red
   SDL_Rect t;
   for (int y=0; y<5; y++) {
     for (int x=0; x<34; x++) {
       if (TITLE[y][x] == 1) {    
-        t.x = x * SIZE / 2;
-        t.y = y * SIZE / 2;
-        t.w = SIZE/2;
-        t.h = SIZE/2;
+        t.x = x * SIZE;
+        t.y = y * SIZE;
+        t.w = SIZE;
+        t.h = SIZE;
         SDL_RenderFillRect(renderer, &t);
       }
     }
   }
 
   SDL_Rect r;
-  SDL_SetRenderDrawColor(renderer, 0, 155, 50, 255);
+  SDL_SetRenderDrawColor(renderer, 0, 155, 50, 255); // Green
   for (int y=0; y<N; y++) {
     for (int x=0; x<N; x++) {
-      printf("%d ", ctx->cells[y][x]);
       if (ctx->cells[y][x] == 1) {
         r.x = x * SIZE;
-        r.y = (y + 3) * SIZE;
+        r.y = (y + 5) * SIZE;
         r.w = SIZE;
         r.h = SIZE;
         SDL_RenderFillRect(renderer, &r);
       }
     }
-    printf("\n");
   }
   SDL_RenderPresent(renderer);
 
@@ -105,9 +101,9 @@ void mainloop(void *arg) {
 
 int main() {
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_Window *window = SDL_CreateWindow("Life Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 800, SDL_WINDOW_OPENGL);
+  SDL_Window *window;
   SDL_Renderer *renderer;
-  SDL_CreateWindowAndRenderer(255, 255, 0, &window, &renderer);
+  SDL_CreateWindowAndRenderer(MAX_SIZE, MAX_SIZE, 0, &window, &renderer);
 
   tb cells = tb(N, std::vector<int>(N, 0));
 
