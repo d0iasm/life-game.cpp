@@ -49,10 +49,21 @@ int dead_or_alive(tb &cells, int x, int y) {
   return 0;
 }
 
-void update(tb &cells) {
+tb copy(tb &cells) {
+  tb copied_cells = tb(N, std::vector<int>(N, 0));
   for (int y=0; y<N; y++) {
     for (int x=0; x<N; x++) {
-      cells[y][x] = dead_or_alive(cells, x, y);
+      copied_cells[y][x] = cells[y][x];
+    }
+  }
+  return copied_cells;
+}
+
+void update(tb &cells) {
+  tb old_cells = copy(cells);
+  for (int y=0; y<N; y++) {
+    for (int x=0; x<N; x++) {
+      cells[y][x] = dead_or_alive(old_cells, x, y);
     }
   }
 }
