@@ -49,23 +49,14 @@ int dead_or_alive(tb &cells, int x, int y) {
   return 0;
 }
 
-tb copy(tb &cells) {
-  tb copied_cells = tb(N, std::vector<int>(N, 0));
+tb update(tb &cells) {
+  tb new_cells = tb(N, std::vector<int>(N, 0));
   for (int y=0; y<N; y++) {
     for (int x=0; x<N; x++) {
-      copied_cells[y][x] = cells[y][x];
+      new_cells[y][x] = dead_or_alive(cells, x, y);
     }
   }
-  return copied_cells;
-}
-
-void update(tb &cells) {
-  tb old_cells = copy(cells);
-  for (int y=0; y<N; y++) {
-    for (int x=0; x<N; x++) {
-      cells[y][x] = dead_or_alive(old_cells, x, y);
-    }
-  }
+  return new_cells;
 }
 
 void mainloop(void *arg) {
@@ -104,7 +95,7 @@ void mainloop(void *arg) {
   }
   SDL_RenderPresent(renderer);
 
-  update(ctx->cells);
+  ctx->cells = update(ctx->cells);
   ctx->iteration++;
 
   sleep(1);
